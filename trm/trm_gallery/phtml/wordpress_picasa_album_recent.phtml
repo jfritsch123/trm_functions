@@ -1,0 +1,24 @@
+
+<?php
+$count = count($entries);
+parse_str($_GET['custom_args'],$custom_args);
+$amount = isset($custom_args['amount']) ? $custom_args['amount'] : 10;
+$page = isset($_GET['page']) ? $_GET['page'] : 0;
+$start = $page * $amount;
+$end = $start + $amount;
+$last_page = intval($count / $amount);
+$i = rand(0,20);
+?>
+
+<?php
+	echo '<div class="album" data-last-page="'.$last_page.'" data-current-page="'.$page.'">';
+	$entry = $entries[$i];
+	echo '<div class="album-item">';
+	echo '<div class="album-item-content">';
+	echo '<a  href="#" data-gallery-type="'.$entry['type'].'" data-link-url="'.$entry['linkUrl'].'"><img src="'.$entry['imageUrl'].'"></a>';
+	echo '<p class="album-title">'.$entry['title'].'</p>';
+	echo '<p class="album-date">'.$entry['date'].'</p>';
+	echo '</div>';
+	echo '</div>';
+	echo '</div>';
+?>

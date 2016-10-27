@@ -1,0 +1,22 @@
+<?php
+$amount = 50;
+$count = count($entries);
+$page = isset($_POST['page']) ? $_POST['page'] : 0;
+$start = $page * $amount;
+$end = $start + $amount;
+?>
+<div class="album" data-gallery-type="wordpress_picasa" data-count-items="<?php echo $count;?>" data-amount-items="<?php echo $amount;?>" data-limit-end="<?php echo $end;?>">
+<?php
+	for($i = $start;$i < $end;$i++) {
+		if($i > $count - 1) break;
+		$entry = $entries[$i];
+		echo '<div class="album-item">';
+		echo '<div class="album-item-content">';
+		echo '<p><a  href="#" data-gallery-type="'.$entry['type'].'" data-link-url="'.$entry['linkUrl'].'"><img src="'.$entry['imageUrl'].'"></a></p>';
+		echo '<p class="album-title">'.($i + 1).'. '.$entry['title'].'</p>';
+		echo '<p class="album-date">'.$entry['date'].'</p>';
+		echo '</div>';
+		echo '</div>';
+	}
+?>
+</div>
