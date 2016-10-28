@@ -45,9 +45,9 @@ function trm_acf_add_date_field_group(){
 		'location' => array (
 			array (
 				array (
-					'param' => 'post_type',
+					'param' => 'post_category',
 					'operator' => '==',
-					'value' => 'post',
+					'value' => 'category:news',
 				),
 			),
 		),
