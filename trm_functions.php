@@ -30,5 +30,5 @@ define ('PLUGIN_DIR_URL',plugin_dir_url(__FILE__ ));
  * The core plugin settings file
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'settings.php';
+require PLUGIN_DIR_PATH . 'settings.php';
 
