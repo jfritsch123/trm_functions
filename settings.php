@@ -21,7 +21,10 @@
 #include_once PLUGIN_DIR_PATH.'/vendor/foundation/settings.php';
 
 // bootstrap
-//include_once PLUGIN_DIR_PATH.'/trm/trm_bootstrap/settings.php';
+#include_once PLUGIN_DIR_PATH.'/trm/trm_bootstrap/settings.php';
 
 // date extensions
-//include_once PLUGIN_DIR_PATH.'/trm/trm_date_extensions/settings.php';
+#include_once PLUGIN_DIR_PATH.'/trm/trm_date_extensions/settings.php';
+
+// cf7 extensions
+include_once PLUGIN_DIR_PATH.'/trm/trm_cf7_extensions/settings.php';
