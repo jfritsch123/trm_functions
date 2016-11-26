@@ -34,6 +34,24 @@ function trm_acf_add_registration_field_groups() {
 					'step'              => '',
 				),
 			),
+			array (
+				'key' => 'field_58286c2f4788b',
+				'label' => 'Beschreibung',
+				'name' => 'acf_description',
+				'type' => 'wysiwyg',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '',
+				'tabs' => 'all',
+				'toolbar' => 'full',
+				'media_upload' => 1,
+			),
 			'location'              => array(
 				array(
 					array(
