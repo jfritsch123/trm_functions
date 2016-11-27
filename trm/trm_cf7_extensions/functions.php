@@ -69,6 +69,7 @@ function filter_wpcf7_form_class_attr( $class ) {
 	if(!isset($_POST['select-course']) || $_POST['select-course'] == "-1"){
 		return $class .' hidden';
 	}
+	return $class;
 };
 //add_filter( 'wpcf7_form_class_attr', 'filter_wpcf7_form_class_attr');
 
@@ -123,4 +124,3 @@ function wpcf7_shortcode($id){
 
 }
 ?>
-

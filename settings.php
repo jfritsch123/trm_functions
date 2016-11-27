@@ -26,5 +26,9 @@
 // date extensions
 #include_once PLUGIN_DIR_PATH.'/trm/trm_date_extensions/settings.php';
 
+// trm ajax
+include_once PLUGIN_DIR_PATH.'/trm/trm_ajax/settings.php';
+
 // cf7 extensions
 include_once PLUGIN_DIR_PATH.'/trm/trm_cf7_extensions/settings.php';
+
