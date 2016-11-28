@@ -12,7 +12,7 @@ function wpcf7_add_shortcode_hidden() {
 add_action( 'wpcf7_init', 'wpcf7_add_shortcode_hidden' );
 
 function wpcf7_hidden_shortcode_handler($tag){
-	return'<input type="hidden" name="'.$tag['name'].'" value="'.$tag['values'][0].'">"';
+	return'<input type="hidden" name="'.$tag['name'].'" value="'.$tag['values'][0].'">';
 }
 
 /**
