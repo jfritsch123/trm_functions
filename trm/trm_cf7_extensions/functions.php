@@ -4,6 +4,18 @@
  */
 
 /**
+ *  custom field hidden
+ */
+function wpcf7_add_shortcode_hidden() {
+	wpcf7_add_shortcode(array('hidden'),'wpcf7_hidden_shortcode_handler', true );
+}
+add_action( 'wpcf7_init', 'wpcf7_add_shortcode_hidden' );
+
+function wpcf7_hidden_shortcode_handler($tag){
+	return'<input type="hidden" name="'.$tag['name'].'" value="'.$tag['values'][0].'">"';
+}
+
+/**
  * count db entries
  * plugin CFDB must be installed !
  * filter="strpos($field,$value) !== false
