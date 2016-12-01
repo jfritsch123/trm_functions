@@ -12,7 +12,8 @@ function wpcf7_add_shortcode_hidden() {
 add_action( 'wpcf7_init', 'wpcf7_add_shortcode_hidden' );
 
 function wpcf7_hidden_shortcode_handler($tag){
-	return'<input type="hidden" name="'.$tag['name'].'" value="'.$tag['values'][0].'">';
+	$value = empty($tag['values'][0]) ? '' : $tag['values'][0];
+	return '<input type="hidden" name="'.$tag['name'].'" value="'.$value.'">';
 }
 
 /**
@@ -29,67 +30,11 @@ function count_db_entries($title,$field,$value){
 	return $i;
 }
 
-/**
- *  custom field select_post_type
- *  must have option post_type defined: post_type:type
- */
-function wpcf7_add_shortcode_select_post_type() {
-	wpcf7_add_shortcode(array('select_post_type','select_post_type*'),'wpcf7_select_post_type_shortcode_handler', true );
-}
-add_action( 'wpcf7_init', 'wpcf7_add_shortcode_select_post_type' );
-
-function wpcf7_select_post_type_shortcode_handler($tag){
-	$wpcf7_obj = WPCF7_ContactForm::get_current();
-	$title = $wpcf7_obj->title;
-	$sm = new WPCF7_Shortcode( $tag );
-	$id = $sm->get_id_option();
-	$post_type = $sm->get_option('post_type')[0];
-	$args = array(
-	    'post_type' => $post_type,
-	    'posts_per_page' => -1,
-	    'orderby'=>'title',
-	    'order'=>'ASC'
-    );
-
-    $the_query = new WP_Query( $args );
-    if ( $the_query->have_posts() ) :
-	    $html = '<span class="wpcf7-form-control-wrap '.$tag['name'].'"><select autocomplete="off" name="'.$tag['name'].'" id="'.$id.'">';
-	    $selected = isset($_POST['select-course']) ? '' : 'selected="selected"';
-	    $html .= '<option '.$selected.' value="-1">Bitte wählen Sie einen Kurs</option>';
-	    $selected = '';
-	    while ( $the_query->have_posts() ) : $the_query->the_post();
-		    $acf_max_count = get_field('acf_max_count');
-		    $count_db_entries = count_db_entries($title,'select-course',get_the_title());
-		    $option_text  = get_the_title(). ' -- '.$count_db_entries.'/'.$acf_max_count;
-		    if(isset($_POST['select-course'])) $selected = $option_text == $_POST['select-course'] ? 'selected="selected"' : '';
-			$html .= '<option '.$selected.' data-id="'.get_the_ID().'" data-max-count="'.$acf_max_count.'" data-db-entries="'.$count_db_entries.'">';
-	        $html .= $option_text;
-	        $html .= '</option>';
-		endwhile;
-        $html .= '</select></span>';
-    else :
-		$html = 'no data';
-	endif;
-	wp_reset_postdata();
-
-	return $html;
-}
-
-// filter  wpcf7_form_class_attr callback
-function filter_wpcf7_form_class_attr( $class ) {
-	// make filter magic happen here...
-	if(!isset($_POST['select-course']) || $_POST['select-course'] == "-1"){
-		return $class .' hidden';
-	}
-	return $class;
-};
-//add_filter( 'wpcf7_form_class_attr', 'filter_wpcf7_form_class_attr');
-
 // filter wpcf7_form_autocomplete
 function filter_wpcf7_form_autocomplete() {
 	return 'on';
 };
-add_filter( 'wpcf7_form_autocomplete', 'filter_wpcf7_form_autocomplete');
+#add_filter( 'wpcf7_form_autocomplete', 'filter_wpcf7_form_autocomplete');
 
 // filter wpcf7_form_action_url
 function filter_wpcf7_form_action_url( $url ) {
@@ -111,7 +56,7 @@ function trm_before_send_mail(){
 		}
 	}
 }
-add_action("wpcf7_before_send_mail", "trm_before_send_mail");
+#add_action("wpcf7_before_send_mail", "trm_before_send_mail");
 
 // filter wpcf7_form_tag: fill in the cookies
 function filter_wpcf7_form_tag( $tag, $unused ) {
@@ -129,4 +74,58 @@ function wpcf7_shortcode($id){
 	return do_shortcode('[contact-form-7 id="'.$id.'"]');
 
 }
+
+/********************************************************************
+ * FILTER: wpcf7_validate_email*
+ * @param $result WPCF7_Validation
+ * @param $tag array
+ * @return WPCF7_Validation
+ */
+function trm_validate_date($result, $tag) {
+	$max_date = substr($tag['options'][2],9);
+	$cur_date = $_POST[$tag['name']];
+	if(strtotime($max_date) < strtotime($cur_date)) {
+		$errorMessage = 'Das Datum ist unterhalb der Grenze '. $max_date;
+		$result->invalidate($tag,$errorMessage );
+		return $result;
+	}
+	return $result;
+
+}
+// add this filter if your field is a **required email** field on your form
+add_filter('wpcf7_validate_date*', 'trm_validate_date', 10, 2);
+
+/********************************************************************
+ * FILTER: wpcf7_ajax_json_echo
+ * $items['mailSent'] true or false
+ * $result['status'] mail_failed or mail_sent or validation_failed
+ *
+ */
+function trm_wpcf7_ajax_json_echo( $items, $result ) {
+
+	// get postet data
+	$submission = WPCF7_Submission::get_instance();
+	$posted_data = $submission->get_posted_data();
+	$cf = WPCF7_ContactForm::get_current();
+
+	// validation failed: return standard message
+	if($result['status'] == 'validation_failed'){
+		return $items;
+	}
+
+	// send mail failed: return standard message
+	if($result['status'] == 'mail_failed'){
+		//return $items;
+	}
+
+	// if field trm-message-template is set:
+	// return message from template if $result['status'] = mail_failed or mail_sent
+		if ($result['status'] == 'mail_sent') {
+			$items['message'] = output_buffer(plugin_dir_path( __FILE__ ).'inc/message-template.phtml',$posted_data);
+		}
+	return $items;
+}
+// add the filter
+add_filter( 'wpcf7_ajax_json_echo', 'trm_wpcf7_ajax_json_echo', 10, 2 );
+
 ?>
