@@ -96,7 +96,7 @@ function filter_wpcf7_form_action_url( $url ) {
 	$post = get_page_by_path($_POST['form-slug']);
 	return get_permalink($post->ID);
 };
-add_filter( 'wpcf7_form_action_url', 'filter_wpcf7_form_action_url', 10, 1 );
+#add_filter( 'wpcf7_form_action_url', 'filter_wpcf7_form_action_url', 10, 1 );
 
 /**
  * filter wpcf7_before_send_mail
@@ -117,12 +117,6 @@ add_action("wpcf7_before_send_mail", "trm_before_send_mail");
 function filter_wpcf7_form_tag( $tag, $unused ) {
 	if(isset($_COOKIE[$tag['name']])){
 		$tag['values'] = array($_COOKIE[$tag['name']]);
-	}
-	if($tag['name'] == 'action'){
-		$tag['values'] = array('trm_ajax_request');
-	}
-	if($tag['name'] == 'nonce'){
-		$tag['values'] = array('6b9701abea');
 	}
 	return $tag;
 }
