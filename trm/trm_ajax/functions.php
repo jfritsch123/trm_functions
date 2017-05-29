@@ -38,7 +38,10 @@ function trm_ajax_response(){
 	return $response;
 }
 
-add_filter('trm_ajax_response','trm_ajax_response_filter');
+/**
+ * sample filter
+ */
+//add_filter('trm_ajax_response','trm_ajax_response_filter');
 function trm_ajax_response_filter(){
 	return wpcf7_shortcode($_POST['_wpcf7']);
 }
