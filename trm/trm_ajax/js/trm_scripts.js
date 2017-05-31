@@ -2,34 +2,31 @@
  * trm_ajax scripts
  */
 
-function trm_load_ajax(params,callback){
+/**
+ * ajax loader: http://cssload.net/
+ * @returns {string}
+ */
+function trm_ajax_loader(){
+    return '<div id="fountainTextG"><div id="fountainTextG_1" class="fountainTextG">L</div><div id="fountainTextG_2" class="fountainTextG">o</div><div id="fountainTextG_3" class="fountainTextG">a</div><div id="fountainTextG_4" class="fountainTextG">d</div><div id="fountainTextG_5" class="fountainTextG">i</div><div id="fountainTextG_6" class="fountainTextG">n</div><div id="fountainTextG_7" class="fountainTextG">g</div></div>';
+}
+
+/**
+ * ajax loading function
+ * @param params: all POST params
+ * @param $container: load this container with ajax content
+ * @param callback: handle result
+ */
+function trm_load_ajax(params,$container,callback){
+    $container.html(trm_ajax_loader());
 	var data = {
 		action: 'trm_ajax_request',
 		nonce: TRMAjax.nonce
 	};
  	data = jQuery.param(data) + '&' + params;
 	jQuery.post(TRMAjax.ajaxurl, data, function(response) {
-		callback(response)
+		callback($container,response)
 	}).fail(function(xhr, textStatus, e) {
 		console.debug(xhr.responseText)
 	});
 }
 
-function submit_form(form){
-    var $form = jQuery(form);
-    var tmce = $form.data('tmce-id');
-    jQuery(tmce).val(tinyMCE.activeEditor.getContent())
-    var params = $form.serialize();
-    trm_load_ajax(params,function (response) {
-        tinyMCE.activeEditor.setContent(response.data.editor + response.data.editor)
-    })
-    return false;
-}
-
-
-( function( $ ) {
-
-    $( document ).ready( function() {
-
-    });
-} )( jQuery );

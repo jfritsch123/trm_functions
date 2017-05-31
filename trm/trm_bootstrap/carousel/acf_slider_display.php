@@ -28,7 +28,7 @@ function display_bootstrap_slider($post_name='frontpage-slider',$template='jumbo
 	}
 	if (count($images) > 0) {
 		ob_start();
-		include PLUGIN_DIR_PATH.'/trm/trm_bootstrap/carousel/templates/'.$template.'.phtml';
+		include PLUGIN_DIR_PATH.'/trm/trm_bootstrap/carousel/phtml/'.$template.'.phtml';
 	}
 
 	$output = ob_get_contents();
