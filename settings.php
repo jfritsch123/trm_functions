@@ -35,4 +35,5 @@ include_once PLUGIN_DIR_PATH.'/trm/trm_ajax/settings.php';
 // trm_tinymce
 //include_once PLUGIN_DIR_PATH.'/trm/trm_tinymce/settings.php';
 
-
+// trm_menu_schedule
+include_once PLUGIN_DIR_PATH.'/trm/trm_menu_schedule/settings.php';

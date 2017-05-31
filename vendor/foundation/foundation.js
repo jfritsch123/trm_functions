@@ -9005,7 +9005,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      */
     templateClasses: '',
     /**
-     * Non-optional class added to tooltip templates. Foundation default is 'tooltip'.
+     * Non-optional class added to tooltip phtml. Foundation default is 'tooltip'.
      * @option
      * @example 'tooltip'
      */
