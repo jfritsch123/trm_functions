@@ -7,6 +7,8 @@
  *  javascript for ajax loader
  */
 add_action( 'wp_enqueue_scripts', 'trm_ajax_enqueue_scripts' );
+add_action( 'admin_enqueue_scripts', 'trm_ajax_enqueue_scripts' );
+
 function trm_ajax_enqueue_scripts() {
 	$plugin_dir_path = plugin_dir_path(__FILE__ );
 	$plugin_dir_url= plugin_dir_url(__FILE__ );
@@ -33,7 +35,7 @@ function trm_ajax_request_callback() {
 }
 
 function trm_ajax_response(){
-	$response = 'please define a "trm_ajax_response" filter ';
+	$response = json_encode('please define a "trm_ajax_response" filter ');
 	$response = apply_filters('trm_ajax_response',$response);
 	return $response;
 }
@@ -41,7 +43,7 @@ function trm_ajax_response(){
 /**
  * sample filter
  */
-//add_filter('trm_ajax_response','trm_ajax_response_filter');
+add_filter('trm_ajax_response','trm_ajax_response_filter');
 function trm_ajax_response_filter(){
-	return wpcf7_shortcode($_POST['_wpcf7']);
+	return $_POST;
 }
