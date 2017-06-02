@@ -40,7 +40,7 @@
     <input type="submit" name="action" value="Spechern">
 </p>
 
-<?php echo $this->mysqlError();?>
+<?php global $wpdb; $wpdb->show_errors();$wpdb->print_error();  ?>
 
 
 
