@@ -1,0 +1,37 @@
+Tabellenstruktur:
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `trm_menu_schedule`
+--
+
+DROP TABLE IF EXISTS `trm_menu_schedule`;
+CREATE TABLE IF NOT EXISTS `trm_menu_schedule` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `date` date NOT NULL,
+  `image_id` int(11) NOT NULL,
+  `image_url` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `trm_menu_schedule`
+--
+ALTER TABLE `trm_menu_schedule`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
+--
+-- AUTO_INCREMENT für Tabelle `trm_menu_schedule`
+--
+ALTER TABLE `trm_menu_schedule`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
