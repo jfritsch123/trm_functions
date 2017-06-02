@@ -28,6 +28,26 @@ class MenuSchedule {
     }
 
     /**
+     * mysql error handling
+     * @return bool|string
+     */
+    public function mysqlError(){
+        global $wpdb;
+        if($wpdb->last_error !== '') :
+
+            $str   = htmlspecialchars( $wpdb->last_result, ENT_QUOTES );
+            $query = htmlspecialchars( $wpdb->last_query, ENT_QUOTES );
+
+            return "<div id='error'>
+                <p class='wpdberror'><strong>WordPress database error:</strong> [$str]<br />
+                <code>$query</code></p>
+                </div>";
+
+        endif;
+        return false;
+    }
+
+    /**
      * @param string $template
      * @return string
      */
