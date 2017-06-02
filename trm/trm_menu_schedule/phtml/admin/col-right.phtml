@@ -1,0 +1,44 @@
+<?php
+/**
+ * trm_menu_schedule right column
+ * jf
+ * 31.05.17
+ *
+ * tinymce settings sample:
+ *  array(
+        'media_buttons' => false,
+        'teeny' => true,
+        'tinymce'       => array(
+            'toolbar1' => 'italic, underline,|,fontsizeselect',
+        ),
+        'editor_height' => 200
+    );
+ */
+?>
+
+<label for="title">Titel</label> <input type="text" id="title" name="title" value="<?php echo $data['title'];?>">
+<label for="date">Datum</label> <input type="text" id="date" readonly name="date" value="<?php echo $data['date']?>">
+
+<?php
+    $settings = array(
+        'media_buttons' => false,
+        'editor_height' => 200
+    );
+    $settings['textarea_name'] = 'editor_1';
+    wp_editor( $data['content'], 'tmce_1' ,$settings);
+ ?>
+
+
+<p>
+    <input id="upload_image_button" class="button" type="button" value="Bild" /><br>
+    <img id="upload_image" src="http://placehold.it/150x150">
+    <input id="upload_image_id" type="hidden" name="upload_image_id" />
+ </p>
+
+<p>
+    <!--<input type="hidden" name="submit">-->
+    <input type="submit" name="action" value="Spechern">
+</p>
+
+
+

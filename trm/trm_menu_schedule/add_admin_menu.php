@@ -5,14 +5,18 @@
  * 31.05.17
  */
 
+require_once PLUGIN_DIR_PATH.'trm/trm_menu_schedule/classes/menu_schedule.php';
+require_once PLUGIN_DIR_PATH.'trm/trm_menu_schedule/classes/menu_frontend.php';
+
 /**
  * insert menu
  */
 function trm_menu_schedule_admin_page(){
-    require_once PLUGIN_DIR_PATH.'trm/trm_menu_schedule/phtml/main.phtml';
+    $menu_schedule = new MenuSchedule();
+    echo $menu_schedule->view();
 }
 function trm_menu_schedule_admin_menu() {
-    add_menu_page( 'menu_schedule', 'Speiseplan', 'manage_options', 'menu_schedule', 'trm_menu_schedule_admin_page', 'dashicons', 6  );
+    add_menu_page( 'menu_schedule', 'Speiseplan', 'manage_options', 'menu_schedule', 'trm_menu_schedule_admin_page','dashicons-index-card', 10 );
 }
 add_action( 'admin_menu', 'trm_menu_schedule_admin_menu' );
 
@@ -22,15 +26,24 @@ add_action( 'admin_menu', 'trm_menu_schedule_admin_menu' );
 function trm_menu_schedule_enqueue_assets() {
     // main javascript file
     wp_enqueue_script( 'trm_menu_schedule',plugin_dir_url(__FILE__ ).'js/trm_scripts.js', array('jquery' ),'1.0',true );
+
+    // datepicker
+    wp_enqueue_script('jquery-ui-datepicker');
+    wp_enqueue_style('jquery-ui',plugin_dir_url(__FILE__ ).'css/ui-lightness/jquery-ui.min.css',array(),'1.12.1');
+
+    // media uploader
+    //wp_enqueue_media();
 }
 add_action( 'admin_enqueue_scripts', 'trm_menu_schedule_enqueue_assets' );
 
-/**
- * trm_ajax_response_filter
+/*
+ * define the shortcodes
  */
-add_filter('trm_ajax_response','trm_trm_menu_schedule_data');
-function trm_trm_menu_schedule_data(){
-    ob_start();
-    include_once PLUGIN_DIR_PATH.'trm/trm_menu_schedule/phtml/data.phtml';
-    return ob_get_clean();
+function trm_weekday_menu($atts, $content=null, $code=""){
+    $menu_frontend = new MenuFrontend();
+    return $menu_frontend->getWeekDayMenu($atts['nr']);
 }
+add_shortcode('trm_weekday_menu', 'trm_weekday_menu');
+
+
+
