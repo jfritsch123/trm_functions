@@ -32,18 +32,18 @@ function trm_menu_schedule_enqueue_assets() {
     wp_enqueue_style('jquery-ui',plugin_dir_url(__FILE__ ).'css/ui-lightness/jquery-ui.min.css',array(),'1.12.1');
 
     // media uploader
-    //wp_enqueue_media();
+    wp_enqueue_media();
 }
 add_action( 'admin_enqueue_scripts', 'trm_menu_schedule_enqueue_assets' );
 
 /*
  * define the shortcodes
  */
-function trm_weekday_menu($atts, $content=null, $code=""){
+function trm_weekday_menu_shortcode($atts, $content=null, $code=""){
     $menu_frontend = new MenuFrontend();
     return $menu_frontend->getWeekDayMenu($atts['nr']);
 }
-add_shortcode('trm_weekday_menu', 'trm_weekday_menu');
+add_shortcode('trm_weekday_menu', 'trm_weekday_menu_shortcode');
 
 
 

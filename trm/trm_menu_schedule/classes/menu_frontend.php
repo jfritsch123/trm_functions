@@ -35,4 +35,16 @@ class MenuFrontend extends MenuSchedule {
         return $this->view();
     }
 
+    /**
+     * get image from image_id
+     * @param $image_id
+     * @param string $size
+     * @return array|false|string
+     */
+    public function getImage($image_id,$size='medium'){
+        if(!empty($image_id)) {
+            return wp_get_attachment_image($image_id, $size);
+        }
+        return '';
+    }
 }

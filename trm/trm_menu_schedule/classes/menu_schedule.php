@@ -28,6 +28,23 @@ class MenuSchedule {
     }
 
     /**
+     * mysql error handling
+     * @return bool|string
+     */
+    public function mysqlError(){
+        global $wpdb;
+        ob_start();
+        $wpdb->show_errors();
+        $wpdb->print_error();
+        $error = ob_get_contents();
+        ob_end_clean();
+        if(strpos($error,'[]') !== false){
+            return false;
+        }
+        return $error;
+    }
+
+    /**
      * @param string $template
      * @return string
      */
@@ -62,7 +79,7 @@ class MenuSchedule {
 
         // if no record exists set date input to sent datepicker
         if (empty($res)) {
-            return array('title' => '', 'date' => $this->mysqlDate($this->datepicker), 'content' => '');
+            return array('title' => '', 'date' => $this->mysqlDate($this->datepicker), 'content' => '','image_id' => null);
         }
         return $res;
     }
@@ -79,7 +96,8 @@ class MenuSchedule {
                 array(
                     "title" => $this->weekday($_POST['date']),
                     "content" => $_POST['editor_1'],
-                    "date" => $_POST['date']
+                    "date" => $_POST['date'],
+                    "image_id" => $_POST['upload_image_id']
                 ),
                 array(
                     "id" => $this->recordId
@@ -89,7 +107,8 @@ class MenuSchedule {
             return $wpdb->insert($this->menu_table, array(
                 "title" => $this->weekday($_POST['date']),
                 "content" => $_POST['editor_1'],
-                "date" => $_POST['date']
+                "date" => $_POST['date'],
+                "image_id" => $_POST['upload_image_id']
             ));
         }
     }
@@ -135,11 +154,15 @@ class MenuSchedule {
 
         // if no record exists set empty array
         if (empty($res)) {
-            $res = array('title' => '', 'date' => $date, 'content' => '');
+            $res = array('title' => '', 'date' => $date, 'content' => '','image_id' => null);
         }
         return $res;
     }
 
+    /**
+     * get menu of current week
+     * @return string
+     */
     public function getWeekMenu() {
         for($i = 0;$i < 5;$i++){
             $menu[] = $this->getWeekDayMenu($i);
@@ -148,12 +171,34 @@ class MenuSchedule {
         return $this->view('weekmenu.phtml');
     }
 
+    /**
+     * get menu of next week
+     * @return string
+     */
     public function getNextWeekMenu() {
         for($i = 7;$i < 12;$i++){
             $menu[] = $this->getWeekDayMenu($i);
         }
         $this->weekmenu = $menu;
         return $this->view('weekmenu.phtml');
+    }
+
+    /**
+     * get image from image_id
+     * @param $image_id
+     * @param string $size
+     * @return array|false|string
+     */
+    public function getImage($image_id,$size='thumbnail'){
+        $html = '<div id="attachment_image" data-placehold-url="http://placehold.it/150x150">';
+        if(!empty($image_id)){
+            $html .= wp_get_attachment_image($image_id,$size);
+        }
+        else{
+            $html .= '<img src="http://placehold.it/150x150">';
+        }
+        $html .= '</div>';
+        return $html;
     }
 
 }

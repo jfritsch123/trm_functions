@@ -59,12 +59,18 @@
                 //console.log(custom_uploader.state().get('selection').first().toJSON());
                 attachment = custom_uploader.state().get('selection').first().toJSON();
                 $('#upload_image_id').val(attachment.id);
-                $('#upload_image').attr('src',attachment.sizes.thumbnail.url);
+                $('#attachment_image > img').attr('src',attachment.sizes.thumbnail.url);
             });
 
             //Open the uploader dialog
             custom_uploader.open();
 
         });
-    });
+
+        $(document).on('click','#remove_image_button',function(e) {
+            $('#upload_image_id').val('');
+            $('#attachment_image > img').attr('src',$('#attachment_image').data('placehold-url'));
+        });
+
+        });
 } )( jQuery );

@@ -30,8 +30,9 @@
 
 
 <p>
-    <input id="upload_image_button" class="button" type="button" value="Bild" /><br>
-    <img id="upload_image" src="http://placehold.it/150x150">
+    <input id="upload_image_button" class="button" type="button" value="Bild" />
+    <input id="remove_image_button" class="button" type="button" value="Löschen" /><br>
+    <?php echo $this->getImage($data['image_id']);?>
     <input id="upload_image_id" type="hidden" name="upload_image_id" />
  </p>
 
@@ -40,7 +41,7 @@
     <input type="submit" name="action" value="Spechern">
 </p>
 
-<?php global $wpdb; $wpdb->show_errors();$wpdb->print_error();  ?>
+<?php echo $this->mysqlError();?>
 
 
 
