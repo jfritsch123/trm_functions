@@ -1,0 +1,40 @@
+<?php
+/**
+ * trm_menu_schedule right column
+ * jf
+ * 31.05.17
+ *
+ * tinymce settings sample:
+ *  array(
+        'media_buttons' => false,
+        'teeny' => true,
+        'tinymce'       => array(
+            'toolbar1' => 'italic, underline,|,fontsizeselect',
+        ),
+        'editor_height' => 200
+    );
+ */
+?>
+
+<label for="title">Titel</label> <input type="text" id="title" name="title" value="<?php echo $data['title'];?>">
+<label for="date">Datum</label> <input type="text" id="date" readonly name="date" value="<?php echo $data['date']?>">
+
+<?php
+$content='<h1>Test</h1>';
+$settings = array(
+    'media_buttons' => false,
+    'teeny' => true,
+    'editor_height' => 200
+);
+$settings['textarea_name'] = 'editor_1';
+wp_editor( $content, 'tmce_1' ,$settings);
+
+$settings['textarea_name'] = 'editor_2';
+$settings['media_buttons'] = true;
+wp_editor( $content, 'tmce_2' ,$settings);
+
+_WP_Editors::enqueue_scripts();
+print_footer_scripts();
+_WP_Editors::editor_js();
+?>
+<input type="submit">
