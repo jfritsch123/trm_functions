@@ -14,6 +14,9 @@ class MenuSchedule {
     public $recordId = false;
     public $permalink;
     public $weekdaymenu;
+    private $showFromWeekday = 7;   // default: Sunday
+    private $firstWeekday = 0;      // starts on Sunday
+    private $lastWeekday = 4;       // ends on Friday
 
     public function __construct() {
         $this->permalink = site_url() . '/wp-admin/admin.php?page=menu_schedule';
@@ -24,6 +27,10 @@ class MenuSchedule {
         }
         if (isset($_POST['action'])) {
             $this->action = 'insert_update';
+        }
+        $showFromWeekday = get_option('showFromWeekday');
+        if($showFromWeekday){
+            $this->showFromWeekday = $showFromWeekday;
         }
     }
 
@@ -90,6 +97,7 @@ class MenuSchedule {
      */
     public function insertUpdateData() {
         if ($this->action != 'insert_update') return false;
+
         global $wpdb;
         if ($this->recordId) {
             return $wpdb->update($this->menu_table,
@@ -123,6 +131,14 @@ class MenuSchedule {
     }
 
     /**
+     * weekday names
+     * @return array
+     */
+    public function weekdayNames(){
+        return array('Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag');
+    }
+
+    /**
      * @param $german_date
      * @return string
      */
@@ -143,12 +159,27 @@ class MenuSchedule {
     }
 
     /**
+     * get current weekday as number: 1..Monday
+     * @return false|string
+     */
+    public function getCurrentWeekDay(){
+        date_default_timezone_set('Europe/Zurich');
+        return date('N');
+    }
+
+    /**
      * get menu from weekday
      * @param $number
      * @return string
      */
     public function getWeekDayMenu($number) {
-        $date = date("Y-m-d", strtotime('monday this week +' . $number . ' day'));
+
+        date_default_timezone_set('Europe/Zurich');
+        if($this->getCurrentWeekDay() <= $this->showFromWeekday){
+            $date = date("Y-m-d", strtotime('monday this week +' . $number . ' day'));
+        }else{
+            $date = date("Y-m-d", strtotime('monday next week +' . $number . ' day'));
+        }
         global $wpdb;
         $res = $wpdb->get_row('SELECT * FROM ' . $this->menu_table . ' WHERE date="' . $date . '"', ARRAY_A);
 
@@ -164,7 +195,7 @@ class MenuSchedule {
      * @return string
      */
     public function getWeekMenu() {
-        for($i = 0;$i < 5;$i++){
+        for($i = $this->firstWeekday;$i <= $this->lastWeekday;$i++){
             $menu[] = $this->getWeekDayMenu($i);
         }
         $this->weekmenu = $menu;
@@ -176,7 +207,7 @@ class MenuSchedule {
      * @return string
      */
     public function getNextWeekMenu() {
-        for($i = 7;$i < 12;$i++){
+        for($i = $this->firstWeekday + 7;$i <= $this->lastWeekday + 7;$i++){
             $menu[] = $this->getWeekDayMenu($i);
         }
         $this->weekmenu = $menu;
@@ -200,5 +231,7 @@ class MenuSchedule {
         $html .= '</div>';
         return $html;
     }
+
+
 
 }

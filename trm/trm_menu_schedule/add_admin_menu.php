@@ -16,7 +16,10 @@ function trm_menu_schedule_admin_page(){
     echo $menu_schedule->view();
 }
 function trm_menu_schedule_admin_menu() {
-    add_menu_page( 'menu_schedule', 'Speiseplan', 'manage_options', 'menu_schedule', 'trm_menu_schedule_admin_page','dashicons-index-card', 10 );
+    add_menu_page('Speiseplan', 'Wochenmenü', 'manage_options', 'menu_schedule', 'trm_menu_schedule_admin_page','dashicons-index-card',10 );
+    //add_submenu_page('menu_schedule', 'Speiseplan', 'Speiseplan', 'manage_options', 'menu_schedule' );
+    //add_submenu_page('menu_schedule', 'Einstellungen', 'Einstellungen', 'manage_options', 'adjustments','trm_menu_adjustments_admin_page' );
+
 }
 add_action( 'admin_menu', 'trm_menu_schedule_admin_menu' );
 
@@ -35,6 +38,24 @@ function trm_menu_schedule_enqueue_assets() {
     wp_enqueue_media();
 }
 add_action( 'admin_enqueue_scripts', 'trm_menu_schedule_enqueue_assets' );
+
+/**
+ * ajax action filter: update option
+ * @param $response
+ */
+function trm_ajax_update_option_filter($response){
+    /*
+    $res = update_option('showFromNextWeekday',$_POST['show_from_next_weekday']);
+    return 'updated showFromNextWeekday: '.$_POST['show_from_next_weekday'];
+    */
+    ob_start();
+    include PLUGIN_DIR_PATH.'trm/trm_menu_schedule/phtml/admin/col-right-ajax.phtml';
+    $res = ob_get_contents();
+    ob_end_clean();
+    return $res;
+}
+add_filter('trm_ajax_action','trm_ajax_update_option_filter');
+
 
 /*
  * define the shortcodes

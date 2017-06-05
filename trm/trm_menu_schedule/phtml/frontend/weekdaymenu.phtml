@@ -7,5 +7,6 @@
 ?>
 <h1><?php echo $this->weekdaymenu['title']?></h1>
 <p><?php echo $this->germanDate($this->weekdaymenu['date']);?></p>
+<p><?php echo $this->getCurrentWeekDay();?></p>
 <div><?php echo $this->getImage($this->weekdaymenu['image_id']);?></div>
 <div><?php echo apply_filters('the_content',$this->weekdaymenu['content']);?></div>

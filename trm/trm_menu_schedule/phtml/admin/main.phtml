@@ -11,16 +11,11 @@ $data = $this->selectData();
 <div class="wrap">
     <div class="row wp-clearfix">
         <form id="menu-schedule-form" action="<?php echo $this->permalink;?>" method="post">
+            <input type="hidden" name="action">
             <div id="col-left" style="width:50%">
                 <?php require_once PLUGIN_DIR_PATH.'trm/trm_menu_schedule/phtml/admin/col-left.phtml';?>
             </div>
             <div id="col-right" style="width:50%">
-                <?php
-                    if($this->action){
-                        include PLUGIN_DIR_PATH.'trm/trm_menu_schedule/phtml/admin/col-right.phtml';
-                    }
-                ?>
-
             </div>
         </form>
     </div>

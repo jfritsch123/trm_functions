@@ -35,18 +35,16 @@ add_action( 'wp_ajax_trm_ajax_request', 'trm_ajax_request_callback' );
 function trm_ajax_request_callback() {
 	check_ajax_referer( 'trm_gallery_request_nonce', 'nonce' );
 	wp_send_json_success(trm_ajax_response());
-	die();
 }
 function trm_ajax_response(){
-	$response = json_encode('please define a "trm_ajax_response" filter ');
-	$response = apply_filters('trm_ajax_response',$response);
-	return $response;
+	$response = 'please define a "trm_ajax_response" filter ';
+	return apply_filters('trm_ajax_action',$response );
 }
 
 /**
  * sample filter
  */
-//add_filter('trm_ajax_response','trm_ajax_response_filter');
-function trm_ajax_response_filter(){
+//add_filter('trm_ajax_action','trm_ajax_action_filter');
+function trm_ajax_action_filter(){
 	return $_POST;
 }

@@ -21,7 +21,10 @@
             onSelect:function(){
                 var date = $('#datepicker-control').datepicker('getDate');
                 $('#datepicker').val($.datepicker.formatDate( "dd.mm.yy", date ));
-                $('#menu-schedule-form').submit();
+                trm_load_ajax('datepicker=' + $('#datepicker').val(),$('#col-right'),function($container,response){
+                    $container.html(response.data);
+                });
+                //$('#menu-schedule-form').submit();
             }
         });
 
@@ -31,6 +34,12 @@
                 $( "#datepicker-control" ).datepicker( "setDate", $('#datepicker').val());
             }
         }
+
+        $(document).on('submit','#menu-schedule-form',function(e){
+            e.preventDefault();
+            tinyMCE.triggerSave();
+            console.debug($(this).serialize());
+        });
 
         /**
          * media uploader
@@ -67,10 +76,17 @@
 
         });
 
+        /**
+         * remove image
+         */
         $(document).on('click','#remove_image_button',function(e) {
             $('#upload_image_id').val('');
             $('#attachment_image > img').attr('src',$('#attachment_image').data('placehold-url'));
         });
 
-        });
+        $(document).on('change','#show_from_next_weekday',function(){
+            trm_load_ajax('show_from_next_weekday=' + $(this).val(),$('#trm-ajax-status'));
+        })
+
+    });
 } )( jQuery );

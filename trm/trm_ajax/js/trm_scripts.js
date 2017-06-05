@@ -17,6 +17,7 @@ function trm_ajax_loader(){
  * @param callback: handle result
  */
 function trm_load_ajax(params,$container,callback){
+	console.debug(params);
     $container.html(trm_ajax_loader());
 	var data = {
 		action: 'trm_ajax_request',
@@ -24,9 +25,15 @@ function trm_load_ajax(params,$container,callback){
 	};
  	data = jQuery.param(data) + '&' + params;
 	jQuery.post(TRMAjax.ajaxurl, data, function(response) {
-		callback($container,response)
-	}).fail(function(xhr, textStatus, e) {
-		console.debug(xhr.responseText)
+		if(response.success){
+            if(typeof callback == 'undefined'){
+                $container.html(response.data);
+            }else{
+                callback($container,response)
+            }
+		}else{
+            $container.html(response.success + ':' + response.data);
+		}
 	});
 }
 
