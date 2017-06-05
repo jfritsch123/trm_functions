@@ -21,6 +21,8 @@
             onSelect:function(){
                 var date = $('#datepicker-control').datepicker('getDate');
                 $('#datepicker').val($.datepicker.formatDate( "dd.mm.yy", date ));
+                console.debug($(this).parents('form').find('input[name="action"]').val())
+                $('#menu-schedule-form-action').val('select');
                 trm_load_ajax('datepicker=' + $('#datepicker').val(),$('#col-right'),function($container,response){
                     $container.html(response.data);
                 });
@@ -38,7 +40,9 @@
         $(document).on('submit','#menu-schedule-form',function(e){
             e.preventDefault();
             tinyMCE.triggerSave();
-            console.debug($(this).serialize());
+            $(this).find('input[name="action"]').val('insert_update')
+            console.debug($('#menu-schedule-form').serialize());
+
         });
 
         /**

@@ -4,14 +4,12 @@
  * jf
  * 31.05.17
  */
-$this->insertUpdateData();
-$data = $this->selectData();
 
 ?>
 <div class="wrap">
     <div class="row wp-clearfix">
         <form id="menu-schedule-form" action="<?php echo $this->permalink;?>" method="post">
-            <input type="hidden" name="action">
+            <input id="menu-schedule-form-action" type="hidden" name="action">
             <div id="col-left" style="width:50%">
                 <?php require_once PLUGIN_DIR_PATH.'trm/trm_menu_schedule/phtml/admin/col-left.phtml';?>
             </div>
