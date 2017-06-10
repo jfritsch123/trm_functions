@@ -16,12 +16,17 @@ if(!function_exists('output_buffer')){
  * debug
  */
 if(!function_exists('debug')){
-	function debug($var,$echo = true){
+	function debug($var,$echo = true,$backtrace=false){
 		if($echo)
-			echo '<pre>'.print_r($var,1).'</pre>';
+			$ret = '<pre>'.print_r($var,1).'</pre>';
 		else
-			return '<pre>'.print_r($var,1).'</pre>';
+			$ret = '<pre>'.print_r($var,1).'</pre>';
 	}
+	if($backtrace){
+        $ret .= 'calling function: '.debug_backtrace()[1]['function'];
+
+    }
+    return $ret;
 }
 
 /********************************************************************

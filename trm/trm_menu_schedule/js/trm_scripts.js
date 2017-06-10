@@ -1,5 +1,7 @@
 /**
  * trm scripts for menu schedule
+ * wordpress 4.8 wp.editor
+ * see https://make.wordpress.org/core/2017/05/20/editor-api-changes-in-4-8/
  */
 
 ( function( $ ) {
@@ -21,29 +23,43 @@
             onSelect:function(){
                 var date = $('#datepicker-control').datepicker('getDate');
                 $('#datepicker').val($.datepicker.formatDate( "dd.mm.yy", date ));
-                console.debug($(this).parents('form').find('input[name="action"]').val())
                 $('#menu-schedule-form-action').val('select');
-                trm_load_ajax('datepicker=' + $('#datepicker').val(),$('#col-right'),function($container,response){
+                trm_load_ajax($('#menu-schedule-form').serialize(),$('#col-right'),function($container,response){
+                    $container.html(response.data);
+                    wp.editor.remove('editor_1');
+                    wp.editor.initialize('editor_1',{tinymce:true,quicktags:true});
+                });
+            }
+        });
+
+        /**
+         * form submit button
+         */
+        $(document).on('click','#menu-schedule-form-submit',function(e){
+            tinyMCE.triggerSave();
+            $('#menu-schedule-form-action').val('insert_update_table');
+            trm_load_ajax($('#menu-schedule-form').serialize(),$('#col-right'),function($container,response){
+                $container.html(response.data);
+                $('#menu-schedule-form-action').val('2weeks-menu');
+                wp.editor.remove('editor_1');
+                wp.editor.initialize('editor_1',{tinymce:true,quicktags:true});
+
+                // reload 2 weeks menu preview (#col-left)
+                trm_load_ajax($('#menu-schedule-form').serialize(),$('#2weeks-menu'),function($container,response){
                     $container.html(response.data);
                 });
-                //$('#menu-schedule-form').submit();
-            }
-        });
 
-        // set highlighted date oft datepicker control
-        if($( "#datepicker-control" ).length){
-            if($('#datepicker').val()){
-                $( "#datepicker-control" ).datepicker( "setDate", $('#datepicker').val());
-            }
-        }
-
-        $(document).on('submit','#menu-schedule-form',function(e){
-            e.preventDefault();
-            tinyMCE.triggerSave();
-            $(this).find('input[name="action"]').val('insert_update')
-            console.debug($('#menu-schedule-form').serialize());
+            });
 
         });
+
+        /**
+         * drop down change event
+         */
+        $(document).on('change','#show_from_next_weekday',function(){
+            $('#menu-schedule-form-action').val('update_option')
+            trm_load_ajax($('#menu-schedule-form').serialize(),$('#trm-ajax-status'));
+        })
 
         /**
          * media uploader
@@ -87,10 +103,6 @@
             $('#upload_image_id').val('');
             $('#attachment_image > img').attr('src',$('#attachment_image').data('placehold-url'));
         });
-
-        $(document).on('change','#show_from_next_weekday',function(){
-            trm_load_ajax('show_from_next_weekday=' + $(this).val(),$('#trm-ajax-status'));
-        })
 
     });
 } )( jQuery );

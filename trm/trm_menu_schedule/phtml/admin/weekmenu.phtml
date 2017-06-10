@@ -9,7 +9,8 @@
 <table class="admin-weekmenu">
     <?php foreach($this->weekmenu as $menu):$date = $this->germanDate($menu['date']);?>
         <tr>
-            <td><a href="<?php echo $this->permalink.'&datepicker='.$date;?>">
+            <td>
+                <a href="<?php echo $this->permalink.'&datepicker='.$date;?>" data-date="<? echo $date;?>">
                     <?php echo $this->weekday($date);?>,
                     <?php echo $date;?>
                 </a>

@@ -11,7 +11,6 @@ class MenuSchedule {
     protected $menu_table = 'trm_menu_schedule';
     public $action = '';
     public $datepicker = '';
-    public $recordId = false;
     public $permalink;
     public $weekdaymenu;
     private $showFromWeekday = 7;   // default: Sunday
@@ -20,17 +19,35 @@ class MenuSchedule {
 
     public function __construct() {
         $this->permalink = site_url() . '/wp-admin/admin.php?page=menu_schedule';
-        if (isset($_REQUEST['datepicker'])) {
-            $this->datepicker = $_REQUEST['datepicker'];
-            $this->recordId = $this->recordId();
-            $this->action = 'select';
-        }
-        if (isset($_POST['action'])) {
-            $this->action = 'insert_update';
-        }
         $showFromWeekday = get_option('showFromWeekday');
         if($showFromWeekday){
             $this->showFromWeekday = $showFromWeekday;
+        }
+        $this->datepicker = $_POST['datepicker'];
+        $this->action = $_POST['menu-schedule-form-action'];
+    }
+
+    /**
+     * action controller
+     * @return string
+     */
+    public function controller(){
+        if($_POST['menu-schedule-form-action'] == 'select'){
+            return $this->view('col-right-ajax.phtml');
+        }
+
+        if($_POST['menu-schedule-form-action'] == 'insert_update_table'){
+            $this->insertUpdateData();
+            return $this->view('col-right-ajax.phtml');
+        }
+
+        if($_POST['menu-schedule-form-action'] == 'update_option'){
+            update_option($_POST['wp_option'],$_POST[$_POST['wp_option']]);
+            return 'updated '.$_POST['wp_option'].' '.$_POST['show_from_next_weekday'];
+        }
+
+        if($_POST['menu-schedule-form-action'] == '2weeks-menu'){
+            return $this->view('2weeks-menu.phtml');
         }
     }
 
@@ -79,9 +96,6 @@ class MenuSchedule {
     public function selectData() {
         global $wpdb;
 
-        // if no action do nothing
-        if (!$this->action) return '';
-
         $res = $wpdb->get_row('SELECT * FROM ' . $this->menu_table . ' WHERE date="' . $this->mysqlDate($this->datepicker) . '"', ARRAY_A);
 
         // if no record exists set date input to sent datepicker
@@ -96,27 +110,27 @@ class MenuSchedule {
      * @return false|int
      */
     public function insertUpdateData() {
-        if ($this->action != 'insert_update') return false;
+        //if ($this->action != 'insert_update_table') return false;
 
         global $wpdb;
-        if ($this->recordId) {
+        // test if record exists
+        $recordId = $this->recordId();
+        if ($recordId) {
             return $wpdb->update($this->menu_table,
                 array(
                     "title" => $this->weekday($_POST['date']),
                     "content" => $_POST['editor_1'],
-                    "date" => $_POST['date'],
-                    "image_id" => $_POST['upload_image_id']
+                    "date" => $_POST['date']
                 ),
                 array(
-                    "id" => $this->recordId
+                    "id" => $recordId
                 )
             );
         } else {
             return $wpdb->insert($this->menu_table, array(
                 "title" => $this->weekday($_POST['date']),
                 "content" => $_POST['editor_1'],
-                "date" => $_POST['date'],
-                "image_id" => $_POST['upload_image_id']
+                "date" => $_POST['date']
             ));
         }
     }
@@ -215,6 +229,14 @@ class MenuSchedule {
     }
 
     /**
+     * get menu of current week and next week
+     * @return string
+     */
+    public function get2WeeksMenu(){
+        return $this->view('2weeks-menu.phtml');
+    }
+
+    /**
      * get image from image_id
      * @param $image_id
      * @param string $size
@@ -232,6 +254,8 @@ class MenuSchedule {
         return $html;
     }
 
-
-
+    public function update_option($name,$value){
+        $res = update_option('showFromNextWeekday',$_POST['show_from_next_weekday']);
+        return 'updated showFromNextWeekday: '.$_POST['show_from_next_weekday'];
+    }
 }

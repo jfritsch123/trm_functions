@@ -27,6 +27,9 @@ add_action( 'admin_menu', 'trm_menu_schedule_admin_menu' );
  *  javascript and css for menu schedule
  */
 function trm_menu_schedule_enqueue_assets() {
+
+    wp_enqueue_editor();
+
     // main javascript file
     wp_enqueue_script( 'trm_menu_schedule',plugin_dir_url(__FILE__ ).'js/trm_scripts.js', array('jquery' ),'1.0',true );
 
@@ -44,15 +47,9 @@ add_action( 'admin_enqueue_scripts', 'trm_menu_schedule_enqueue_assets' );
  * @param $response
  */
 function trm_ajax_update_option_filter($response){
-    /*
-    $res = update_option('showFromNextWeekday',$_POST['show_from_next_weekday']);
-    return 'updated showFromNextWeekday: '.$_POST['show_from_next_weekday'];
-    */
-    ob_start();
-    include PLUGIN_DIR_PATH.'trm/trm_menu_schedule/phtml/admin/col-right-ajax.phtml';
-    $res = ob_get_contents();
-    ob_end_clean();
-    return $res;
+    require_once PLUGIN_DIR_PATH.'trm/trm_menu_schedule/classes/menu_schedule.php';
+    $menu_schedule = new MenuSchedule();
+    return $menu_schedule->controller();
 }
 add_filter('trm_ajax_action','trm_ajax_update_option_filter');
 

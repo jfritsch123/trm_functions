@@ -9,20 +9,7 @@
 <p>Datum wählen ...</p>
 <input id="datepicker" name="datepicker" type="hidden" value="<?php echo $this->datepicker;?>">
 <div id="datepicker-control"></div>
-<button id="load-form-button" style="display:none;">load</button>
 
-<h1>Wochenmenü - aktuelle Woche</h1>
-<?php echo $this->getWeekMenu();?>
-
-<h1>Wochenmenü - nächste Woche</h1>
-<button id="ajaxtest">Ajax Test</button>
-Anzeigen ab
-<select id="show_from_next_weekday" name="show_from_next_weekday">
-    <?php $i = 1;foreach($this->weekdayNames() as $day):?>
-        <?php $number = get_option('showFromNextWeekday');$number = $number ? $number : 6;?>
-        <?php $selected = $i == $number ? 'selected="selected"' : '';?>
-        <?php echo '<option value="'.$i++.'" '.$selected.'>'.$day.'</option>';?>
-    <?php endforeach;?>
-</select>
-<?php echo $this->getNextWeekMenu();?>
-<div id="trm-ajax-status"></div>
+<div id="2weeks-menu">
+    <?php echo $this->get2WeeksMenu();?>
+</div>

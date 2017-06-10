@@ -17,7 +17,6 @@ function trm_ajax_loader(){
  * @param callback: handle result
  */
 function trm_load_ajax(params,$container,callback){
-	console.debug(params);
     $container.html(trm_ajax_loader());
 	var data = {
 		action: 'trm_ajax_request',
