@@ -6,6 +6,7 @@
  */
 ?>
 
+
 <h1>Wochenmenü - aktuelle Woche</h1>
 <?php echo $this->getWeekMenu();?>
 
@@ -14,7 +15,7 @@
 Anzeigen ab
 <select id="show_from_next_weekday" name="show_from_next_weekday">
     <?php $i = 1;foreach($this->weekdayNames() as $day):?>
-        <?php $number = get_option('showFromNextWeekday');$number = $number ? $number : 6;?>
+        <?php $number = get_option('show_from_next_weekday');$number = $number ? $number : 6;?>
         <?php $selected = $i == $number ? 'selected="selected"' : '';?>
         <?php echo '<option value="'.$i++.'" '.$selected.'>'.$day.'</option>';?>
     <?php endforeach;?>

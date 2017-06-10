@@ -33,12 +33,12 @@ class MenuSchedule {
      */
     public function controller(){
         if($_POST['menu-schedule-form-action'] == 'select'){
-            return $this->view('col-right-ajax.phtml');
+            return $this->view('col-right.phtml');
         }
 
         if($_POST['menu-schedule-form-action'] == 'insert_update_table'){
             $this->insertUpdateData();
-            return $this->view('col-right-ajax.phtml');
+            return $this->view('col-right.phtml');
         }
 
         if($_POST['menu-schedule-form-action'] == 'update_option'){
@@ -254,6 +254,11 @@ class MenuSchedule {
         return $html;
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @return string
+     */
     public function update_option($name,$value){
         $res = update_option('showFromNextWeekday',$_POST['show_from_next_weekday']);
         return 'updated showFromNextWeekday: '.$_POST['show_from_next_weekday'];

@@ -33,6 +33,13 @@
         });
 
         /**
+         * only fort testing: get settings
+         */
+        $( document ).on( 'wp-before-tinymce-init', function( event, settings ) {
+            console.debug(settings);
+        });
+
+        /**
          * form submit button
          */
         $(document).on('click','#menu-schedule-form-submit',function(e){
@@ -59,6 +66,21 @@
         $(document).on('change','#show_from_next_weekday',function(){
             $('#menu-schedule-form-action').val('update_option')
             trm_load_ajax($('#menu-schedule-form').serialize(),$('#trm-ajax-status'));
+        })
+
+        /**
+         * convert links in weekmenus to ajax calls
+         */
+        $(document).on('click','table.admin-weekmenu a',function(e){
+            e.preventDefault();
+            $('#menu-schedule-form-action').val('select');
+            $('#datepicker').val($(this).data('date'));
+            trm_load_ajax($('#menu-schedule-form').serialize(),$('#col-right'),function($container,response){
+                $container.html(response.data);
+                wp.editor.remove('editor_1');
+                wp.editor.initialize('editor_1',{tinymce:true,quicktags:true});
+            });
+
         })
 
         /**
