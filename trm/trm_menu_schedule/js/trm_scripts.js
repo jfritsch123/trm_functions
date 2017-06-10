@@ -70,7 +70,7 @@
         /**
          * drop down change event
          */
-        $(document).on('change','#show_from_next_weekday',function(){
+        $(document).on('change','#show_from_weekday',function(){
             $('#menu-schedule-form-action').val('update_option')
             trm_load_ajax($('#menu-schedule-form').serialize(),$('#trm-ajax-status'));
         })

@@ -189,7 +189,7 @@ class MenuSchedule {
     public function getWeekDayMenu($number) {
 
         date_default_timezone_set('Europe/Zurich');
-        if($this->getCurrentWeekDay() <= $this->showFromWeekday){
+        if($this->getCurrentWeekDay() < $this->showFromWeekday){
             $date = date("Y-m-d", strtotime('monday this week +' . $number . ' day'));
         }else{
             $date = date("Y-m-d", strtotime('monday next week +' . $number . ' day'));
