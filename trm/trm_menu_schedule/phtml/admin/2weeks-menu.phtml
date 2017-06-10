@@ -13,13 +13,13 @@
 <h1>Wochenmenü - nächste Woche</h1>
 
 Anzeigen ab
-<select id="show_from_next_weekday" name="show_from_next_weekday">
+<select id="show_from_weekday" name="show_from_weekday">
     <?php $i = 1;foreach($this->weekdayNames() as $day):?>
-        <?php $number = get_option('show_from_next_weekday');$number = $number ? $number : 6;?>
+        <?php $number = get_option('show_from_weekday');$number = $number ? $number : 6;?>
         <?php $selected = $i == $number ? 'selected="selected"' : '';?>
         <?php echo '<option value="'.$i++.'" '.$selected.'>'.$day.'</option>';?>
     <?php endforeach;?>
 </select>
-<input type="hidden" name="wp_option" value="show_from_next_weekday">
+<input type="hidden" name="wp_option" value="show_from_weekday">
 <?php echo $this->getNextWeekMenu();?>
 <div id="trm-ajax-status"></div>

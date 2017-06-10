@@ -19,7 +19,7 @@ class MenuSchedule {
 
     public function __construct() {
         $this->permalink = site_url() . '/wp-admin/admin.php?page=menu_schedule';
-        $showFromWeekday = get_option('showFromWeekday');
+        $showFromWeekday = get_option('show_from_weekday');
         if($showFromWeekday){
             $this->showFromWeekday = $showFromWeekday;
         }
@@ -43,7 +43,7 @@ class MenuSchedule {
 
         if($_POST['menu-schedule-form-action'] == 'update_option'){
             update_option($_POST['wp_option'],$_POST[$_POST['wp_option']]);
-            return 'updated '.$_POST['wp_option'].' '.$_POST['show_from_next_weekday'];
+            return 'updated '.$_POST['wp_option'].' '.$_POST[$_POST['wp_option']];
         }
 
         if($_POST['menu-schedule-form-action'] == '2weeks-menu'){

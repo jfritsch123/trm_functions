@@ -8,6 +8,14 @@
 
     $( document ).ready( function() {
 
+        var tmce_settings = {tinymce:true,quicktags:true};
+        var tmce_toolbar1 = 'formatselect,bold,italic,bullist,numlist,link';
+
+        function tmce_init(id){
+            wp.editor.remove(id);
+            wp.editor.initialize(id,tmce_settings);
+        }
+
         /**
          * datepicker
          */
@@ -26,17 +34,17 @@
                 $('#menu-schedule-form-action').val('select');
                 trm_load_ajax($('#menu-schedule-form').serialize(),$('#col-right'),function($container,response){
                     $container.html(response.data);
-                    wp.editor.remove('editor_1');
-                    wp.editor.initialize('editor_1',{tinymce:true,quicktags:true});
+                    tmce_init('editor_1');
                 });
             }
         });
 
         /**
-         * only fort testing: get settings
+         * toolbar settings
+         * for use with more than one editor: use editor.id
          */
-        $( document ).on( 'wp-before-tinymce-init', function( event, settings ) {
-            console.debug(settings);
+        $( document ).on( 'tinymce-editor-setup', function( event, editor ) {
+            editor.settings.toolbar1 = tmce_toolbar1;
         });
 
         /**
@@ -48,8 +56,7 @@
             trm_load_ajax($('#menu-schedule-form').serialize(),$('#col-right'),function($container,response){
                 $container.html(response.data);
                 $('#menu-schedule-form-action').val('2weeks-menu');
-                wp.editor.remove('editor_1');
-                wp.editor.initialize('editor_1',{tinymce:true,quicktags:true});
+                tmce_init('editor_1');
 
                 // reload 2 weeks menu preview (#col-left)
                 trm_load_ajax($('#menu-schedule-form').serialize(),$('#2weeks-menu'),function($container,response){
@@ -77,8 +84,7 @@
             $('#datepicker').val($(this).data('date'));
             trm_load_ajax($('#menu-schedule-form').serialize(),$('#col-right'),function($container,response){
                 $container.html(response.data);
-                wp.editor.remove('editor_1');
-                wp.editor.initialize('editor_1',{tinymce:true,quicktags:true});
+                tmce_init('editor_1');
             });
 
         })
