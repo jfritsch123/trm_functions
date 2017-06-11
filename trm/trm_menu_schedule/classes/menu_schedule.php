@@ -23,8 +23,8 @@ class MenuSchedule {
         if($showFromWeekday){
             $this->showFromWeekday = $showFromWeekday;
         }
-        $this->datepicker = $_POST['datepicker'];
-        $this->action = $_POST['menu-schedule-form-action'];
+        $this->datepicker = isset($_POST['datepicker']) ? $_POST['datepicker'] : false;
+        $this->action = isset($_POST['menu-schedule-form-action']) ? $_POST['menu-schedule-form-action'] : false;
     }
 
     /**

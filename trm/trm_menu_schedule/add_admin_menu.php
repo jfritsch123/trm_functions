@@ -56,6 +56,7 @@ add_filter('trm_ajax_action','trm_ajax_update_option_filter');
 
 /*
  * define the shortcodes
+ * $atts['nr'] number of weekday: 1..Monday
  */
 function trm_weekday_menu_shortcode($atts, $content=null, $code=""){
     $menu_frontend = new MenuFrontend();
