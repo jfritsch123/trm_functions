@@ -32,10 +32,10 @@ abstract class Gallery
         $i = 0;
         $image_list = array();
         foreach($entries as $entry){
-            $image = '<a href="'.$entry['imageUrl'].'"><img src="'. $entry['thumbUrl'].'" alt="'.$entry['alt'].'"></a>';
-            $image_list[] = $this->imageOutput($image,$i++,$entry,$settings);
+            $image = '<a href="'.$entry['imageUrl'].'" data-fancybox="group'.get_the_ID().'"><img src="'. $entry['thumbUrl'].'" alt="'.$entry['alt'].'"></a>';
+            $image_list[] = $image; //$this->imageOutput($image,$i++,$entry,$settings);
         }
-        $image_sizes = $this->imageSizes();
+        //$image_sizes = $this->imageSizes();
         ob_start();
         include($templatePath);
         $v = ob_get_clean();

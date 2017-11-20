@@ -9,7 +9,7 @@
 include_once PLUGIN_DIR_PATH.'/trm/trm_functions/settings.php';
 
 // trm_gallery
-#include_once PLUGIN_DIR_PATH.'/trm/trm_gallery/settings.php';
+include_once PLUGIN_DIR_PATH.'/trm/trm_gallery/settings.php';
 
 // masonry, imagesloaded
 #include_once PLUGIN_DIR_PATH.'/vendor/masonry/settings.php';
@@ -27,13 +27,13 @@ include_once PLUGIN_DIR_PATH.'/trm/trm_functions/settings.php';
 #include_once PLUGIN_DIR_PATH.'/trm/trm_date_extensions/settings.php';
 
 // trm ajax
-include_once PLUGIN_DIR_PATH.'/trm/trm_ajax/settings.php';
+//include_once PLUGIN_DIR_PATH.'/trm/trm_ajax/settings.php';
 
 // cf7 extensions
-//include_once PLUGIN_DIR_PATH.'/trm/trm_cf7_extensions/settings.php';
+#include_once PLUGIN_DIR_PATH.'/trm/trm_cf7_extensions/settings.php';
 
 // trm_tinymce
-//include_once PLUGIN_DIR_PATH.'/trm/trm_tinymce/settings.php';
+#include_once PLUGIN_DIR_PATH.'/trm/trm_tinymce/settings.php';
 
 // trm_menu_schedule
-include_once PLUGIN_DIR_PATH.'/trm/trm_menu_schedule/settings.php';
+#include_once PLUGIN_DIR_PATH.'/trm/trm_menu_schedule/settings.php';

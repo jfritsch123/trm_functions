@@ -28,10 +28,10 @@ class WordpressAlbum extends Gallery
 
 	public function itemList(){
 
-		$posts_per_page = -1;
+		$posts_per_page = 1;
 		$args = array(
 			'post_status' => array( 'publish' ),
-			'category_name' => 'bildergalerie',
+			'category_name' => 'allgemein',
 			'posts_per_page' => $posts_per_page,
 			'orderby' => 'date',
 			'order' => 'DESC',
