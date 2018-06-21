@@ -15,6 +15,7 @@ function trm_ajax_loader(){
  * @param params: all POST params
  * @param $container: load this container with ajax content
  * @param callback: handle result
+ *  @param error_callback: handle result error
  */
 function trm_load_ajax(params,$container,callback,error_callback){
     $container.html(trm_ajax_loader());
