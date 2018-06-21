@@ -3,14 +3,14 @@
 /**
  * Treemotion Functions
  *
- * @link              http.//treemotion.at
+ * @link              http.//treemotion.at Version 2.0.0
  * @since             1.0.0
  * @package           Trm_functions
  *
  * @wordpress-plugin
  * Plugin Name:       trm_functions
  * Plugin URI:        http.//treemotion.at
- * Version:           1.0.0
+ * Version:           2.0.0
  * Author:            jf
  * Author URI:        http.//treemotion.at
  * License:           GPL-2.0+
