@@ -6,8 +6,10 @@
  * 02.07.17
  */
 
-$url = 'http://www.shanti-austria.com/fotos-shanti/';
-$filename = 'shanti-austria-';
+$name = 'turkei-russl-uk-georgien';
+
+$url = 'http://192.168.0.104/trm/2017/shanti/wordpress/'.$name.'/';
+$filename = $name.'-';
 $doc = new DOMDocument;
 $doc->preserveWhiteSpace = FALSE;
 @$doc->loadHTMLFile($url);
@@ -21,7 +23,7 @@ if (!is_null($elements)) {
     foreach ($elements as $element) {
         $url = $element->getAttribute('href');
         $type=substr($url,strrpos($url,'.')+1);
-        echo $type.'<br>';
+        echo $i.'.'.$filename.'.'.$type.'<br>';
         $image = file_get_contents($url);
         file_put_contents('temp/'.$filename.(++$i).'.'.$type, $image); //Where to save the image on your server
     }

@@ -16,23 +16,33 @@ function trm_ajax_loader(){
  * @param $container: load this container with ajax content
  * @param callback: handle result
  */
-function trm_load_ajax(params,$container,callback){
+function trm_load_ajax(params,$container,callback,error_callback){
     $container.html(trm_ajax_loader());
-	var data = {
-		action: 'trm_ajax_request',
-		nonce: TRMAjax.nonce
-	};
- 	data = jQuery.param(data) + '&' + params;
-	jQuery.post(TRMAjax.ajaxurl, data, function(response) {
-		if(response.success){
-            if(typeof callback == 'undefined'){
-                $container.html(response.data);
+    var data = {
+        action: 'trm_ajax_request',
+        nonce: TRMAjax.nonce
+    };
+    data = jQuery.param(data) + '&' + params;
+    jQuery.post(TRMAjax.ajaxurl, data)
+        .done (function(response){
+            //console.debug(response);.
+
+            if(response.success){
+                if(typeof callback == 'undefined'){
+                    $container.html(response.data);
+                }else{
+                    callback($container,response)
+                }
             }else{
-                callback($container,response)
+                $container.html(response.success + ':' + response.data);
             }
-		}else{
-            $container.html(response.success + ':' + response.data);
-		}
-	});
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            if(typeof error_callback == 'undefined'){
+                alert(textStatus + ': ' + errorThrown);
+            }else{
+                error_callback(jqXHR, textStatus, errorThrown)
+            }
+        });
 }
 
