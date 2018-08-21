@@ -9,7 +9,7 @@
 include_once PLUGIN_DIR_PATH.'/trm/trm_functions/settings.php';
 
 // trm_gallery
-include_once PLUGIN_DIR_PATH.'/trm/trm_gallery/settings.php';
+//include_once PLUGIN_DIR_PATH.'/trm/trm_gallery/settings.php';
 
 // masonry, imagesloaded
 #include_once PLUGIN_DIR_PATH.'/vendor/masonry/settings.php';
