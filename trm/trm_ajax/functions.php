@@ -19,7 +19,10 @@ function trm_ajax_enqueue_assets() {
 
 	// styles for ajax loding animation
 	wp_enqueue_style( 'trm-admin', plugin_dir_url(__FILE__ ).'css/admin.css', array(), '1.0.0' );
-	global $nonce;
+
+	// loadingoverlay
+	wp_enqueue_script( 'loadingoverlay',plugin_dir_url(__FILE__ ).'js/loadingoverlay.min.js', array('jquery' ),'2.1.6',true );
+
 }
 add_action( 'wp_enqueue_scripts', 'trm_ajax_enqueue_assets' );
 add_action( 'admin_enqueue_scripts', 'trm_ajax_enqueue_assets' );

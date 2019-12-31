@@ -3,42 +3,28 @@
  */
 
 /**
- * ajax loader: http://cssload.net/
- * @returns {string}
- */
-function trm_ajax_loader(){
-    return '<div id="fountainTextG"><div id="fountainTextG_1" class="fountainTextG">L</div><div id="fountainTextG_2" class="fountainTextG">o</div><div id="fountainTextG_3" class="fountainTextG">a</div><div id="fountainTextG_4" class="fountainTextG">d</div><div id="fountainTextG_5" class="fountainTextG">i</div><div id="fountainTextG_6" class="fountainTextG">n</div><div id="fountainTextG_7" class="fountainTextG">g</div></div>';
-}
-
-/**
  * ajax loading function
  * @param params: all POST params
  * @param $container: load this container with ajax content
  * @param callback: handle result
  */
-function trm_load_ajax(params,$container,callback,showloading){
-    if(typeof showloading != 'undefined') {
-        $container.html(trm_ajax_loader());
-    }
+function trm_load_ajax(params,$container,callback){
     var data = {
         action: 'trm_ajax_request',
         nonce: TRMAjax.nonce
     };
     data = jQuery.param(data) + '&' + params;
 
-    jQuery.ajax({
-        beforeSend: function (jqXHR, settings) {
-            jqXHR.setRequestHeader('Authorization', 'Basic ' + btoa('myuser:MyNewPswd'));
-        },
-        headers: {
-            'Nonce': TRMAjax.nonce
-        },
+    jQuery.LoadingOverlay("show",{maxSize:60});
 
+    jQuery.ajax({
         url:TRMAjax.ajaxurl,
         method: 'POST',
         data: data,
         success: function(response) {
-            //console.debug(response);
+
+            jQuery.LoadingOverlay("hide");
+
             if(response.success){
                 if(typeof callback == 'undefined'){
                     $container.html(response.data);
@@ -48,7 +34,8 @@ function trm_load_ajax(params,$container,callback,showloading){
             }else{
                 $container.html(response.success + ':' + response.data);
             }
-        }});
+        }
+    });
 }
 
 jQuery(document).ready(function($){
